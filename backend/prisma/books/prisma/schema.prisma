@@ -1,0 +1,27 @@
+// This is your Prisma schema file for Books Database
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client-books"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_BOOKS_URL")
+}
+
+model Book {
+  id            String   @id @default(cuid())
+  title         String   @db.VarChar(255)
+  authorId      String   @db.VarChar(255)
+  genre         String   @db.VarChar(100)
+  publishedYear Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("books")
+  @@index([genre])
+  @@index([authorId])
+  @@index([publishedYear])
+}

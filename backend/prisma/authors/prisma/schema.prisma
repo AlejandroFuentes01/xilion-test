@@ -1,0 +1,25 @@
+// This is your Prisma schema file for Authors Database
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client-authors"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_AUTHORS_URL")
+}
+
+model Author {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(255)
+  birthYear   Int
+  nationality String   @db.VarChar(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("authors")
+  @@index([nationality])
+  @@index([birthYear])
+}
