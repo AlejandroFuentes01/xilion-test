@@ -100,3 +100,17 @@ export const VALID_GENRES = [
 ] as const;
 
 export type ValidGenre = typeof VALID_GENRES[number];
+
+// Book Content Types
+export interface BookContent {
+    id: string;
+    bookId: string;
+    content: string;
+    hasRealContent: boolean;
+}
+
+// Extended Book with content
+export interface BookWithContent extends BookWithAuthor {
+    hasRealContent?: boolean;
+    contentPreview?: string;
+}
