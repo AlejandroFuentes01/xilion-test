@@ -1,3 +1,5 @@
+import TestConnection from '@/components/TestConnection';
+
 export default function Home() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -5,6 +7,11 @@ export default function Home() {
                 <h1 className="text-4xl font-bold">
                     Library Management System
                 </h1>
+            </div>
+
+            {/* Test de conexión con el backend */}
+            <div className="w-full max-w-5xl">
+                <TestConnection />
             </div>
 
             <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
@@ -55,6 +62,15 @@ export default function Home() {
                         Create an account to access advanced features.
                     </p>
                 </div>
+            </div>
+
+            <div className="mt-16 text-center">
+                <p className="text-sm text-gray-500">
+                    Full-stack application built with Next.js, TypeScript, and Express
+                </p>
+                <p className="text-xs text-gray-400 mt-2">
+                    Backend API: http://localhost:3000 | Frontend: http://localhost:3001
+                </p>
             </div>
         </main>
     )
