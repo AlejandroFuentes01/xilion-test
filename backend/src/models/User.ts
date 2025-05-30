@@ -15,14 +15,14 @@ const users: User[] = [
     {
         id: '1',
         username: 'admin',
-        password: '$2a$10$8K1p/a9GlJp7z2r6p1D6LuGT1vKqXNqF3rJQz5sX9qZQWER7B4nQ6', // "password123"
+        password: '$2b$10$vlNgtUJDazuWvLtC2neT9eTbLfI5smqryo0WXP6DjPZge.uK37O12', // "password123"
         createdAt: new Date(),
         updatedAt: new Date()
     },
     {
         id: '2',
         username: 'testuser',
-        password: '$2a$10$8K1p/a9GlJp7z2r6p1D6LuGT1vKqXNqF3rJQz5sX9qZQWER7B4nQ6', // "password123"
+        password: '$2b$10$vlNgtUJDazuWvLtC2neT9eTbLfI5smqryo0WXP6DjPZge.uK37O12', // "password123"
         createdAt: new Date(),
         updatedAt: new Date()
     }
