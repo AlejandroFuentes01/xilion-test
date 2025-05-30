@@ -48,11 +48,11 @@ export default function BookCards({
         if (!value || value === '#N/A' || value === 'N/A' || value === '' || value === null || value === undefined || value === '#') {
             return fallback;
         }
-        
+
         // Limpiar cualquier carácter no numérico al inicio
         const cleanedValue = String(value).replace(/^[#\s]+/, '').trim();
         const num = parseInt(cleanedValue);
-        
+
         return isNaN(num) || num <= 0 ? fallback : String(num);
     };
 
@@ -61,11 +61,11 @@ export default function BookCards({
         if (!authorName || authorName === '#N/A' || authorName === 'N/A' || authorName === '' || authorName === null || authorName === undefined || authorName === '#') {
             return 'Unknown Author';
         }
-        
+
         const name = String(authorName);
         // Eliminar números y espacios al final del nombre
         const cleanName = name.replace(/\s+\d+\s*$/, '').trim();
-        
+
         return cleanName || 'Unknown Author';
     };
 
@@ -104,7 +104,7 @@ export default function BookCards({
                     {hasFilters ? 'No books found' : 'No books available'}
                 </h3>
                 <p className="text-gray-500 text-sm">
-                    {hasFilters 
+                    {hasFilters
                         ? 'Try adjusting your search criteria or clearing filters.'
                         : 'There are no books in the library yet.'
                     }
@@ -145,8 +145,8 @@ export default function BookCards({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {books.map((book) => {
                     return (
-                        <div 
-                            key={book.id} 
+                        <div
+                            key={book.id}
                             className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg hover:border-gray-300 transition-all duration-200 overflow-hidden cursor-pointer group"
                             onClick={() => handleViewBook(book.id)}
                         >
@@ -165,7 +165,7 @@ export default function BookCards({
                                         <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight mb-1 group-hover:text-blue-900 transition-colors">
                                             {cleanValue(book.title, 'Untitled Book')}
                                         </h3>
-                                        
+
                                         <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
                                             <User className="h-3 w-3 flex-shrink-0" />
                                             <span className="truncate">
@@ -175,9 +175,9 @@ export default function BookCards({
 
                                         {/* Tags compactos */}
                                         <div className="flex flex-wrap gap-1 mb-2">
-                                            {cleanValue(book.genre, '') !== '' && 
-                                             cleanValue(book.genre, '') !== 'Unknown' && 
-                                             cleanValue(book.genre, '').length > 1 ? (
+                                            {cleanValue(book.genre, '') !== '' &&
+                                                cleanValue(book.genre, '') !== 'Unknown' &&
+                                                cleanValue(book.genre, '').length > 1 ? (
                                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                     <Tag className="h-2.5 w-2.5" />
                                                     {cleanValue(book.genre, 'General')}
@@ -188,15 +188,15 @@ export default function BookCards({
                                                     General
                                                 </span>
                                             )}
-                                            
-                                            {cleanValue(book.publishedYear, '') !== '' && 
-                                             cleanNumber(book.publishedYear, '') !== 'Unknown' && 
-                                             parseInt(cleanNumber(book.publishedYear, '0')) > 1800 && (
-                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                                                    <Calendar className="h-2.5 w-2.5" />
-                                                    {cleanNumber(book.publishedYear, 'Unknown')}
-                                                </span>
-                                            )}
+
+                                            {cleanValue(book.publishedYear, '') !== '' &&
+                                                cleanNumber(book.publishedYear, '') !== 'Unknown' &&
+                                                parseInt(cleanNumber(book.publishedYear, '0')) > 1800 && (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                                        <Calendar className="h-2.5 w-2.5" />
+                                                        {cleanNumber(book.publishedYear, 'Unknown')}
+                                                    </span>
+                                                )}
                                         </div>
 
                                         {/* Info adicional */}
@@ -208,8 +208,8 @@ export default function BookCards({
                                                     <span>{cleanNumber((book as any).pages, '?')} pages</span>
                                                 </div>
                                             )}
-                                            
-                                            <button 
+
+                                            <button
                                                 className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 ml-auto group-hover:text-blue-700 transition-colors"
                                                 onClick={(e) => {
                                                     e.stopPropagation(); // Evitar doble click
@@ -221,14 +221,14 @@ export default function BookCards({
                                             </button>
                                         </div>
 
-                                        {/* ISBN muy pequeño - solo si existe y es válido */}
-                                        {(book as any).isbn && cleanValue((book as any).isbn, '') !== '' && 
-                                         cleanValue((book as any).isbn, '') !== 'Unknown' && 
-                                         cleanValue((book as any).isbn, '').length > 3 && (
-                                            <div className="text-xs text-gray-400 font-mono mt-1 truncate">
-                                                {cleanValue((book as any).isbn, '')}
-                                            </div>
-                                        )}
+
+                                        {(book as any).isbn && cleanValue((book as any).isbn, '') !== '' &&
+                                            cleanValue((book as any).isbn, '') !== 'Unknown' &&
+                                            cleanValue((book as any).isbn, '').length > 3 && (
+                                                <div className="text-xs text-gray-400 font-mono mt-1 truncate">
+                                                    {cleanValue((book as any).isbn, '')}
+                                                </div>
+                                            )}
 
                                         {/* Indicador sutil de clickeable */}
                                         <div className="text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
