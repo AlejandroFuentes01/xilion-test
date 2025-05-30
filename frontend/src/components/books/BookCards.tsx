@@ -2,6 +2,7 @@
 
 import { BookWithAuthor } from '@/types';
 import { Book, Calendar, Eye, Hash, Tag, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 interface BookCardsProps {
     books: BookWithAuthor[];
     isLoading: boolean;
@@ -25,6 +26,14 @@ export default function BookCards({
     error,
     onClearError
 }: BookCardsProps) {
+
+    const router = useRouter();
+
+    // Función para navegar a los detalles del libro
+    const handleViewBook = (bookId: string) => {
+        // Ruta correcta para tu estructura: books/[id]
+        router.push(`/books/${bookId}`);
+    };
 
     // Función para limpiar valores inválidos
     const cleanValue = (value: any, fallback: string = 'Unknown'): string => {
@@ -138,21 +147,22 @@ export default function BookCards({
                     return (
                         <div 
                             key={book.id} 
-                            className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-200 overflow-hidden"
+                            className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg hover:border-gray-300 transition-all duration-200 overflow-hidden cursor-pointer group"
+                            onClick={() => handleViewBook(book.id)}
                         >
                             {/* Card Content */}
                             <div className="p-4">
                                 <div className="flex gap-3">
                                     {/* Ícono de libro simple */}
                                     <div className="flex-shrink-0">
-                                        <div className="w-14 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg border border-gray-200 flex items-center justify-center">
+                                        <div className="w-14 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg border border-gray-200 flex items-center justify-center group-hover:from-blue-200 group-hover:to-blue-300 transition-colors">
                                             <Book className="h-6 w-6 text-blue-600" />
                                         </div>
                                     </div>
 
                                     {/* Info del libro */}
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight mb-1">
+                                        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight mb-1 group-hover:text-blue-900 transition-colors">
                                             {cleanValue(book.title, 'Untitled Book')}
                                         </h3>
                                         
@@ -199,7 +209,13 @@ export default function BookCards({
                                                 </div>
                                             )}
                                             
-                                            <button className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 ml-auto">
+                                            <button 
+                                                className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 ml-auto group-hover:text-blue-700 transition-colors"
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); // Evitar doble click
+                                                    handleViewBook(book.id);
+                                                }}
+                                            >
                                                 <Eye className="h-3 w-3" />
                                                 <span>View</span>
                                             </button>
@@ -213,6 +229,11 @@ export default function BookCards({
                                                 {cleanValue((book as any).isbn, '')}
                                             </div>
                                         )}
+
+                                        {/* Indicador sutil de clickeable */}
+                                        <div className="text-xs text-gray-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            Click to view details
+                                        </div>
                                     </div>
                                 </div>
                             </div>
