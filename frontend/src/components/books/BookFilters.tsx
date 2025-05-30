@@ -3,6 +3,7 @@
 import { VALID_GENRES } from '@/types';
 import { ChevronDown, Search, X } from 'lucide-react';
 
+// Propiedades del componente de filtros
 interface BookFiltersProps {
     searchQuery: string;
     setSearchQuery: (query: string) => void;
@@ -22,13 +23,14 @@ export default function BookFilters({
     onClear,
     isLoading
 }: BookFiltersProps) {
+    // Verificar si hay filtros activos
     const hasActiveFilters = searchQuery || selectedGenre;
 
     return (
         <div className="mb-6 space-y-4">
-            {/* Search and Filter Bar */}
+            {/* Barra de búsqueda y filtros */}
             <div className="flex flex-col sm:flex-row gap-4">
-                {/* Search Input */}
+                {/* Campo de búsqueda */}
                 <div className="flex-1">
                     <div className="relative">
                         <input
@@ -43,7 +45,7 @@ export default function BookFilters({
                     </div>
                 </div>
 
-                {/* Genre Filter */}
+                {/* Filtro de género */}
                 <div className="relative">
                     <select
                         value={selectedGenre}
@@ -58,7 +60,7 @@ export default function BookFilters({
                     <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-gray-400 pointer-events-none" />
                 </div>
 
-                {/* Action Buttons */}
+                {/* Botones de acción */}
                 <div className="flex gap-2">
                     <button
                         onClick={onSearch}
@@ -82,7 +84,7 @@ export default function BookFilters({
                 </div>
             </div>
 
-            {/* Active Filters Indicator */}
+            {/* Indicador de filtros activos */}
             {hasActiveFilters && (
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                     <span>Active filters:</span>

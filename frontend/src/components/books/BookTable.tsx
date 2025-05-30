@@ -3,15 +3,16 @@ import BookTableRow from './BookTableRow';
 import EmptyState from './EmptyState';
 import LoadingState from './LoadingState';
 
+// Propiedades del componente de tabla de libros
 interface BookTableProps {
-    books: BookWithAuthor[];
-    isLoading: boolean;
-    hasNextPage: boolean;
-    onLoadMore: () => void;
-    currentPage: number;
-    limit: number;
-    hasFilters: boolean;
-    onClearFilters: () => void;
+    books: BookWithAuthor[];       // Lista de libros con información del autor
+    isLoading: boolean;            // Estado de carga
+    hasNextPage: boolean;          // Si hay más páginas disponibles
+    onLoadMore: () => void;        // Función para cargar más libros
+    currentPage: number;           // Página actual
+    limit: number;                 // Límite de libros por página
+    hasFilters: boolean;           // Si hay filtros aplicados
+    onClearFilters: () => void;    // Función para limpiar filtros
 }
 
 export default function BookTable({
@@ -26,6 +27,7 @@ export default function BookTable({
 }: BookTableProps) {
     return (
         <div className="bg-white rounded-lg shadow overflow-hidden">
+            {/* Tabla principal con encabezados */}
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                     <tr>
@@ -46,6 +48,7 @@ export default function BookTable({
                         </th>
                     </tr>
                 </thead>
+                {/* Cuerpo de la tabla con filas de libros */}
                 <tbody className="bg-white divide-y divide-gray-200">
                     {books.map((book, index) => (
                         <BookTableRow
@@ -59,15 +62,15 @@ export default function BookTable({
                 </tbody>
             </table>
 
-            {/* Loading State */}
+            {/* Estado de carga inicial */}
             {isLoading && books.length === 0 && <LoadingState />}
 
-            {/* Empty State */}
+            {/* Estado vacío cuando no hay libros */}
             {!isLoading && books.length === 0 && (
                 <EmptyState hasFilters={hasFilters} onClearFilters={onClearFilters} />
             )}
 
-            {/* Load More Button */}
+            {/* Botón para cargar más libros */}
             {hasNextPage && books.length > 0 && (
                 <div className="text-center py-6 border-t border-gray-200">
                     <button

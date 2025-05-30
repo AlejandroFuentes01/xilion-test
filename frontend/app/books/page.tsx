@@ -3,9 +3,9 @@
 import BookFilters from '@/components/books/BookFilters';
 import BookHeader from '@/components/books/BookHeader';
 import BookTable from '@/components/books/BookTable';
-import { useAuthRedirect } from '@/hooks/books/useAuthRedirect';
 import { useBookFilters } from '@/hooks/books/useBookFilters';
 import { useInfiniteBooks } from '@/hooks/books/useInfiniteBooks';
+import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 import { useBooksStore } from '@/stores/booksStore';
 
 export default function BooksPage() {
