@@ -1,9 +1,6 @@
-// This is your Prisma schema file for Authors Database
-// Learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../../node_modules/.prisma/client-authors"
+  output   = "../../../node_modules/.prisma/client-authors"
 }
 
 datasource db {
