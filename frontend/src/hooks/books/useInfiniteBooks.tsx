@@ -1,7 +1,7 @@
 'use client';
 
 import { useBooksStore } from '@/stores/booksStore';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useInfiniteScroll } from './useInfiniteScroll';
 
 export function useInfiniteBooks() {
@@ -11,19 +11,26 @@ export function useInfiniteBooks() {
         hasNextPage,
         loadBooks,
         loadMoreBooks,
-        filters
+        filters,
+        totalBooksInLibrary
     } = useBooksStore();
 
-    // Cargar libros inicialmente
+    const isInitialLoad = useRef(true);
+    const lastFiltersRef = useRef<string>('');
+
+    // Cargar libros inicialmente - solo una vez
     useEffect(() => {
-        if (books.length === 0) {
+        if (isInitialLoad.current && books.length === 0 && !isLoading) {
+            console.log('📚 Initial books load');
+            isInitialLoad.current = false;
             loadBooks(true);
         }
-    }, [books.length, loadBooks]);
+    }, []); // Solo ejecutar una vez
 
-    // Función para cargar más libros (memoizada para evitar re-renders)
+    // Función para cargar más libros (estable)
     const handleLoadMore = useCallback(() => {
         if (!isLoading && hasNextPage) {
+            console.log('📚 Loading more books via infinite scroll');
             loadMoreBooks();
         }
     }, [isLoading, hasNextPage, loadMoreBooks]);
@@ -33,15 +40,26 @@ export function useInfiniteBooks() {
         hasNextPage,
         isLoading,
         onLoadMore: handleLoadMore,
-        threshold: 300 // Cargar cuando estemos a 300px del final
+        threshold: 400 // Aumentado para menos sensibilidad
     });
 
-    // Resetear scroll position cuando cambien los filtros
+    // Manejar scroll to top solo cuando realmente cambian los filtros
     useEffect(() => {
-        const filtersChanged = filters.search || filters.genre;
-        if (filtersChanged && books.length > 0) {
-            // Smooth scroll to top cuando se aplican filtros
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        const currentFilters = JSON.stringify({ search: filters.search, genre: filters.genre });
+        
+        // Solo hacer scroll si los filtros realmente cambiaron y hay filtros activos
+        if (currentFilters !== lastFiltersRef.current && (filters.search || filters.genre)) {
+            lastFiltersRef.current = currentFilters;
+            console.log('🔄 Filters changed, scrolling to top');
+            
+            // Scroll más suave y con más delay para no interferir con el input
+            setTimeout(() => {
+                if (window.scrollY > 100) { // Solo hacer scroll si no está ya arriba
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 300); // Delay mayor para evitar interferencia con el borrado
+        } else {
+            lastFiltersRef.current = currentFilters;
         }
     }, [filters.search, filters.genre]);
 
@@ -49,8 +67,9 @@ export function useInfiniteBooks() {
         books,
         isLoading,
         hasNextPage,
-        loadMoreBooks: handleLoadMore, // Función manual también disponible
+        loadMoreBooks: handleLoadMore,
         totalBooks: books.length,
+        totalBooksInLibrary,
         hasFilters: Boolean(filters.search || filters.genre)
     };
 }

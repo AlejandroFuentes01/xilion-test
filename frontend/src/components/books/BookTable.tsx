@@ -72,8 +72,8 @@ export default function BookTable({
             {totalBooks !== undefined && !isLoading && books.length > 0 && (
                 <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
                     <p className="text-sm text-gray-600">
-                        Showing {books.length} books
-                        {hasNextPage && ' (loading more as you scroll)'}
+                        Showing {totalBooks} books
+                        {hasNextPage && ' (scroll down for more)'}
                         {hasFilters && ' matching your search'}
                     </p>
                 </div>
@@ -117,15 +117,15 @@ export default function BookTable({
             </div>
 
             {/* Estado de carga inicial */}
-            {isLoading && books.length === 0 && <LoadingState />}
+            {isLoading && totalBooks === 0 && <LoadingState />}
 
             {/* Estado vacío cuando no hay libros */}
-            {!isLoading && books.length === 0 && (
+            {!isLoading && totalBooks === 0 && (
                 <EmptyState hasFilters={hasFilters} onClearFilters={onClearFilters} />
             )}
 
             {/* Indicador de carga de más elementos (infinite scroll) */}
-            {isLoadingMore && books.length > 0 && (
+            {isLoadingMore && totalBooks !== undefined && totalBooks > 0 && (
                 <div className="text-center py-6 border-t border-gray-200">
                     <div className="flex items-center justify-center gap-2 text-gray-600">
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -135,7 +135,7 @@ export default function BookTable({
             )}
 
             {/* Botón manual para cargar más (backup del infinite scroll) */}
-            {hasNextPage && books.length > 0 && !isLoadingMore && (
+            {hasNextPage && totalBooks !== undefined && totalBooks > 0 && !isLoadingMore && (
                 <div className="text-center py-6 border-t border-gray-200">
                     <button
                         onClick={onLoadMore}
@@ -154,7 +154,7 @@ export default function BookTable({
             {!hasNextPage && books.length > 0 && !isLoading && (
                 <div className="text-center py-6 border-t border-gray-200 bg-gray-50">
                     <p className="text-sm text-gray-600">
-                        🎉 You've reached the end! All {books.length} books loaded.
+                        🎉 You've reached the end! All {totalBooks} books loaded.
                     </p>
                 </div>
             )}

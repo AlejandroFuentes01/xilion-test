@@ -3,82 +3,84 @@
 import { useBooksStore } from '@/stores/booksStore';
 import { useCallback, useEffect, useState } from 'react';
 
-// Hook para debouncing
-function useDebounce<T>(value: T, delay: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => {
-            setDebouncedValue(value);
-        }, delay);
-
-        return () => {
-            clearTimeout(handler);
-        };
-    }, [value, delay]);
-
-    return debouncedValue;
-}
-
 export function useBookFilters() {
     const { filters, setFilters, loadBooks, resetBooks } = useBooksStore();
 
-    // Estados locales para los inputs
-    const [searchQuery, setSearchQuery] = useState(filters.search || '');
-    const [selectedGenre, setSelectedGenre] = useState(filters.genre || '');
+    // Estados locales para los inputs - COMPLETAMENTE independientes del store
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState('');
 
-    // Debounce para la búsqueda (300ms)
-    const debouncedSearch = useDebounce(searchQuery, 300);
-
-    // Sincronizar estados locales con el store al montar
+    // Inicializar UNA VEZ con los valores del store
     useEffect(() => {
         setSearchQuery(filters.search || '');
         setSelectedGenre(filters.genre || '');
-    }, [filters.search, filters.genre]);
+    }, []); // Solo al montar
 
-    // Aplicar búsqueda automáticamente con debounce
-    useEffect(() => {
-        if (debouncedSearch !== (filters.search || '')) {
-            handleSearchInternal(debouncedSearch, selectedGenre);
-        }
-    }, [debouncedSearch]);
+    // Función de búsqueda manual unificada
+    const executeSearch = useCallback(() => {
+        console.log('🔍 Manual search executed:', { 
+            search: searchQuery.trim(), 
+            genre: selectedGenre 
+        });
 
-    // Función interna para manejar búsqueda
-    const handleSearchInternal = useCallback((search: string, genre: string) => {
         setFilters({
-            search: search || undefined,
-            genre: genre || undefined,
+            search: searchQuery.trim() || undefined,
+            genre: selectedGenre || undefined,
             page: 1
         });
-        loadBooks(true); // Reset = true para nueva búsqueda
-    }, [setFilters, loadBooks]);
+        loadBooks(true);
+    }, [searchQuery, selectedGenre, setFilters, loadBooks]);
 
-    // Manejar búsqueda manual (botón)
-    const handleSearch = useCallback(() => {
-        handleSearchInternal(searchQuery, selectedGenre);
-    }, [searchQuery, selectedGenre, handleSearchInternal]);
+    // Manejar cambio en búsqueda - SOLO actualizar estado local
+    const handleSearchChange = useCallback((value: string) => {
+        setSearchQuery(value);
+        // NO hacer búsqueda automática
+    }, []);
 
-    // Manejar cambio de género
+    // Manejar cambio de género - TAMBIÉN manual ahora
     const handleGenreChange = useCallback((genre: string) => {
         setSelectedGenre(genre);
-        handleSearchInternal(searchQuery, genre);
-    }, [searchQuery, handleSearchInternal]);
+        // NO hacer búsqueda automática - esperar a que usuario presione Search o Enter
+    }, []);
+
+    // Manejar búsqueda manual (Enter o botón)
+    const handleSearch = useCallback(() => {
+        executeSearch();
+    }, [executeSearch]);
 
     // Limpiar filtros
     const handleClearFilters = useCallback(() => {
+        console.log('🧹 Clearing all filters');
+        
         setSearchQuery('');
         setSelectedGenre('');
+        
         resetBooks();
         setFilters({ page: 1, limit: 20 });
         loadBooks(true);
-    }, [setFilters, loadBooks, resetBooks]);
+    }, [resetBooks, setFilters, loadBooks]);
+
+    // Verificar si hay filtros activos localmente (antes de aplicar)
+    const hasLocalFilters = searchQuery.trim() || selectedGenre;
+    
+    // Verificar si los filtros locales son diferentes a los aplicados
+    const hasUnappliedChanges = 
+        (searchQuery.trim() || '') !== (filters.search || '') ||
+        selectedGenre !== (filters.genre || '');
 
     return {
+        // Estados locales
         searchQuery,
-        setSearchQuery,
+        setSearchQuery: handleSearchChange,
         selectedGenre,
-        setSelectedGenre: handleGenreChange, // Usar la función que maneja el cambio
+        setSelectedGenre: handleGenreChange,
+        
+        // Acciones
         handleSearch,
-        handleClearFilters
+        handleClearFilters,
+        
+        // Estados útiles para la UI - ESTAS ERAN LAS QUE FALTABAN
+        hasLocalFilters,
+        hasUnappliedChanges
     };
 }

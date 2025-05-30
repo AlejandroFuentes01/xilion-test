@@ -7,15 +7,26 @@ interface BooksState {
     filters: BookFilters;
     pagination: PaginatedResponse<BookWithAuthor>['pagination'] | null;
     isLoading: boolean;
-    isLoadingMore: boolean; // Separar loading inicial de load more
+    isLoadingMore: boolean;
     hasNextPage: boolean;
     error: string | null;
+    totalBooksInLibrary: number;
     setFilters: (filters: Partial<BookFilters>) => void;
     loadBooks: (reset?: boolean) => Promise<void>;
     loadMoreBooks: () => Promise<void>;
     resetBooks: () => void;
     clearError: () => void;
 }
+
+// Función helper para comparar filtros
+const areFiltersEqual = (filters1: BookFilters, filters2: BookFilters): boolean => {
+    return (
+        filters1.search === filters2.search &&
+        filters1.genre === filters2.genre &&
+        filters1.page === filters2.page &&
+        filters1.limit === filters2.limit
+    );
+};
 
 export const useBooksStore = create<BooksState>((set, get) => ({
     books: [],
@@ -25,6 +36,7 @@ export const useBooksStore = create<BooksState>((set, get) => ({
     isLoadingMore: false,
     hasNextPage: true,
     error: null,
+    totalBooksInLibrary: 0,
 
     setFilters: (newFilters: Partial<BookFilters>) => {
         const currentFilters = get().filters;
@@ -35,39 +47,64 @@ export const useBooksStore = create<BooksState>((set, get) => ({
             updatedFilters.page = 1;
         }
 
-        set({ filters: updatedFilters, error: null });
+        // Solo actualizar si realmente cambió algo
+        if (!areFiltersEqual(currentFilters, updatedFilters)) {
+            console.log('🔄 Manual search filters applied:', { 
+                old: currentFilters, 
+                new: updatedFilters 
+            });
+            set({ filters: updatedFilters, error: null });
+        }
     },
 
     loadBooks: async (reset = true) => {
         const { filters, isLoading, isLoadingMore } = get();
 
         // Evitar múltiples llamadas simultáneas
-        if (isLoading || isLoadingMore) return;
+        if (isLoading || isLoadingMore) {
+            console.log('⏭️ Skipping load - already loading:', { isLoading, isLoadingMore });
+            return;
+        }
 
-        set({
-            isLoading: reset,
-            isLoadingMore: !reset,
-            error: null
-        });
+        const loadingState = reset ? 'isLoading' : 'isLoadingMore';
+        set({ [loadingState]: true, error: null });
 
         try {
-            console.log('📚 Loading books with filters:', filters);
+            console.log(`📚 Loading books (${reset ? 'new search' : 'load more'}):`, {
+                ...filters,
+                searchActive: !!filters.search,
+                genreActive: !!filters.genre
+            });
+            
             const response = await booksService.getBooks(filters);
 
-            console.log('📚 Books loaded:', {
-                newBooks: response.data.length,
+            console.log('📚 Books response:', {
+                received: response.data.length,
                 hasNext: response.pagination.hasNext,
-                total: response.pagination.total
+                total: response.pagination.total,
+                page: response.pagination.page,
+                searchTerm: filters.search || 'none',
+                genre: filters.genre || 'all'
             });
 
-            set({
-                books: reset ? response.data : [...get().books, ...response.data],
+            // Determinar si actualizar el total de la biblioteca
+            const isWithoutFilters = !filters.search && !filters.genre;
+            const currentTotal = get().totalBooksInLibrary;
+            const newTotal = (isWithoutFilters && response.pagination.total > currentTotal)
+                ? response.pagination.total
+                : currentTotal;
+
+            // Actualizar estado de manera atómica
+            set((state) => ({
+                books: reset ? response.data : [...state.books, ...response.data],
                 pagination: response.pagination,
                 hasNextPage: response.pagination.hasNext,
                 isLoading: false,
                 isLoadingMore: false,
-                error: null
-            });
+                error: null,
+                totalBooksInLibrary: newTotal
+            }));
+
         } catch (error: any) {
             console.error('❌ Error loading books:', error);
             set({
@@ -87,17 +124,20 @@ export const useBooksStore = create<BooksState>((set, get) => ({
         }
 
         const nextPage = (filters.page || 1) + 1;
-        console.log('📄 Loading more books - Page:', nextPage);
+        console.log('📄 Loading more books - Next page:', nextPage);
 
+        // Actualizar página y cargar
         set((state) => ({
-            filters: { ...state.filters, page: nextPage },
+            filters: { ...state.filters, page: nextPage }
         }));
 
         await get().loadBooks(false);
     },
 
     resetBooks: () => {
-        console.log('🔄 Resetting books store');
+        console.log('🧹 Resetting books store to initial state');
+        const currentTotal = get().totalBooksInLibrary;
+
         set({
             books: [],
             filters: { page: 1, limit: 20 },
@@ -105,7 +145,8 @@ export const useBooksStore = create<BooksState>((set, get) => ({
             hasNextPage: true,
             isLoading: false,
             isLoadingMore: false,
-            error: null
+            error: null,
+            totalBooksInLibrary: currentTotal
         });
     },
 
