@@ -218,18 +218,6 @@ export default function BooksPage() {
                             </div>
                         </div>
                     </div>
-
-                    {/* Footer de desarrollo */}
-                    {process.env.NODE_ENV === 'development' && (
-                        <div className="mt-6 text-center space-y-2">
-                            <div className="text-xs text-gray-400 bg-gray-100 rounded-lg px-3 py-2 inline-block">
-                                🔧 Dev Info: {books.length} books loaded
-                            </div>
-                            <div className="hidden lg:block text-xs text-gray-400">
-                                Table scroll: Left={canScrollLeft ? '✅' : '❌'} | Right={canScrollRight ? '✅' : '❌'}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         </div>

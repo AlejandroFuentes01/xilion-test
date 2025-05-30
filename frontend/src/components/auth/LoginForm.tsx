@@ -85,14 +85,6 @@ export default function LoginForm({ onSuccess, onToggleMode }: LoginFormProps) {
                         Don't have an account? Sign up
                     </button>
                 </div>
-
-                <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                    <p className="text-sm text-gray-600 text-center">Demo credentials:</p>
-                    <p className="text-xs text-gray-500 text-center mt-1">
-                        Username: <span className="font-mono">admin</span> |
-                        Password: <span className="font-mono">password123</span>
-                    </p>
-                </div>
             </form>
         </div>
     );

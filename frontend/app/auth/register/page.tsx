@@ -2,7 +2,6 @@
 
 import RegisterForm from '@/components/auth/RegisterForm';
 import { useAuthStore } from '@/stores/authStore';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -42,16 +41,6 @@ export default function RegisterPage() {
                         onSuccess={handleRegisterSuccess}
                         onToggleMode={() => router.push('/auth/login')}
                     />
-                </div>
-
-                {/* Footer */}
-                <div className="text-center">
-                    <p className="text-sm text-gray-600">
-                        Already have an account?{' '}
-                        <Link href="/auth/login" className="text-blue-600 hover:text-blue-500 font-medium">
-                            Sign in here
-                        </Link>
-                    </p>
                 </div>
             </div>
         </div>
