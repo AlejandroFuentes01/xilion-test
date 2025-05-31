@@ -1,35 +1,44 @@
 import { PrismaClient as AuthorsClient } from '../../node_modules/.prisma/client-authors';
 import { PrismaClient as BooksClient } from '../../node_modules/.prisma/client-books';
 
-// Books Database Client
+// Crear conexiones separadas para cada base de datos
 export const booksDB = new BooksClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  datasources: {
+    db: {
+      url: process.env.DATABASE_BOOKS_URL
+    }
+  },
+  log: process.env.NODE_ENV === 'production' ? ['error'] : ['query', 'info', 'warn', 'error']
 });
 
-// Authors Database Client  
 export const authorsDB = new AuthorsClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  datasources: {
+    db: {
+      url: process.env.DATABASE_AUTHORS_URL
+    }
+  },
+  log: process.env.NODE_ENV === 'production' ? ['error'] : ['query', 'info', 'warn', 'error']
 });
 
-// Connect to both databases
 export const connectDatabases = async () => {
   try {
+    // Conectar a la base de datos de Books
     await booksDB.$connect();
     console.log('📚 Connected to Books Database');
     
+    // Conectar a la base de datos de Authors  
     await authorsDB.$connect();
     console.log('👥 Connected to Authors Database');
     
     console.log('✅ All databases connected successfully');
   } catch (error) {
     console.error('❌ Database connection failed:', error);
-    process.exit(1);
+    throw error;
   }
 };
 
-// Disconnect from both databases
 export const disconnectDatabases = async () => {
   await booksDB.$disconnect();
   await authorsDB.$disconnect();
-  console.log('🔌 Disconnected from all databases');
+  console.log('🔌 Disconnected from databases');
 };
