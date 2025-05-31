@@ -1,5 +1,5 @@
 import { BookWithAuthor } from '@/types';
-import { ArrowLeft, Book } from 'lucide-react';
+import { ArrowLeft, Book, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import BookHeader from './BookHeader';
 
@@ -17,52 +17,45 @@ export default function BookReader({ book }: BookReaderProps) {
 
     const cleanedAuthorName = book.author?.name ? cleanAuthorName(book.author.name) : 'Unknown Author';
 
-    // Debug temporal
-    console.log('BookReader - raw author name:', book.author?.name);
-    console.log('BookReader - cleaned author name:', cleanedAuthorName);
-
     // Verificar si es "The Way of Kings" para mostrar contenido especial
     const isWayOfKings = book.title.toLowerCase().includes('way of kings') &&
         cleanedAuthorName.toLowerCase().includes('brandon sanderson');
 
+        // GG no tuve tiempo de hacerlo de otra manera
     const renderContent = () => {
         if (isWayOfKings) {
+            const pdfUrl = '/books/the-way-of-kings.pdf';
+            
             return (
-                <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-                    <div className="space-y-6">
-                        <p className="text-xl font-medium text-gray-900 mb-8">
-                            Chapter 1: To Kill
+                <div className="space-y-6">
+                    {/* Botón para abrir PDF en web */}
+                    <div className="text-center py-6">
+                        <button
+                            onClick={() => window.open(pdfUrl, '_blank')}
+                            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        >
+                            <ExternalLink size={18} />
+                            Abrir en Web
+                        </button>
+                    </div>
+
+                    {/* Resumen del libro */}
+                    <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
+                        <h4 className="text-xl font-semibold text-gray-900 mb-4">
+                            Book Summary
+                        </h4>
+                        
+                        <p className="mb-4">
+                            Set on the storm-ravaged world of Roshar, "The Way of Kings" is an epic fantasy that follows three main characters: Kaladin, a former soldier turned slave; Shallan, a young woman seeking to save her family; and Dalinar, a warlord haunted by visions of ancient times.
+                        </p>
+
+                        <p className="mb-4">
+                            Roshar is a world of stone and storms, where violent tempests reshape the landscape. Ancient magical artifacts known as Shardblades and Shardplate make their wielders nearly unstoppable in battle.
                         </p>
 
                         <p>
-                            "I'm going to destroy you," Kaladin said quietly, watching the lighteyes across from him. The man was a highlord, judging by his clothing—a pristine blue silk coat that probably cost more than most people made in a year.
+                            This is the first book in The Stormlight Archive series, an epic fantasy adventure with complex magic systems, deep character development, and incredibly detailed world-building spanning approximately 1,000 pages.
                         </p>
-
-                        <p>
-                            The lighteyes laughed. "You? A darkeyed slave thinks he can destroy me?" He gestured, and his guards stepped forward. "I am Brightlord Amaram, heir to one of Alethkar's most ancient houses. You are nothing."
-                        </p>
-
-                        <p>
-                            Kaladin's grip tightened on his spear. The weapon felt familiar in his hands, despite the months of slavery. "We'll see about that, Brightlord."
-                        </p>
-
-                        <p>
-                            The wind picked up around them, carrying with it the faint scent of a distant storm. In the sky above, the occasional windspren danced through the air, like tiny glowing ribbons caught in an invisible breeze.
-                        </p>
-
-                        <p>
-                            "The most important step a man can take," Kaladin whispered to himself, words his father had once told him, "is always the next one."
-                        </p>
-
-                        <p>
-                            And with that, he charged forward, his spear gleaming in the afternoon light, ready to face whatever destiny awaited him on the Shattered Plains of Roshar.
-                        </p>
-
-                        <div className="mt-12 p-4 bg-blue-50 rounded-lg">
-                            <p className="text-sm text-blue-800 font-medium">
-                                📚 Continue reading "The Way of Kings" - This is just the beginning of an epic fantasy journey through the world of Roshar.
-                            </p>
-                        </div>
                     </div>
                 </div>
             );
@@ -75,22 +68,25 @@ export default function BookReader({ book }: BookReaderProps) {
                 {[...Array(20)].map((_, index) => (
                     <div key={index} className="space-y-2">
                         {/* Línea larga */}
-                        <div className="h-4 bg-gray-300 rounded w-full"></div>
+                        <div className="h-4 bg-gray-300 rounded w-full animate-pulse"></div>
                         {/* Línea mediana */}
-                        <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                        <div className="h-4 bg-gray-300 rounded w-5/6 animate-pulse"></div>
                         {/* Línea corta */}
-                        <div className="h-4 bg-gray-300 rounded w-4/5"></div>
+                        <div className="h-4 bg-gray-300 rounded w-4/5 animate-pulse"></div>
                         {/* Línea muy corta */}
-                        <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                        <div className="h-4 bg-gray-300 rounded w-2/3 animate-pulse"></div>
                         {/* Salto de párrafo */}
                         <div className="h-2"></div>
                     </div>
                 ))}
 
-                <div className="mt-12 p-4 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-600 font-medium flex items-center gap-2">
-                        <Book size={16} />
-                        Content not available - This is a placeholder for "{book.title}"
+                <div className="mt-12 p-6 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300">
+                    <p className="text-center text-gray-600 font-medium flex items-center justify-center gap-2">
+                        <Book size={20} />
+                        Content not available for reading
+                    </p>
+                    <p className="text-center text-sm text-gray-500 mt-2">
+                        This book is catalogued in our library but not available for online reading.
                     </p>
                 </div>
             </div>
@@ -103,8 +99,8 @@ export default function BookReader({ book }: BookReaderProps) {
             <BookHeader />
 
             {/* Contenido del libro */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Botón de regreso - Posicionado antes del título */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {/* Botón de regreso */}
                 <div className="mb-6">
                     <button
                         onClick={() => router.push('/books')}
@@ -115,18 +111,33 @@ export default function BookReader({ book }: BookReaderProps) {
                     </button>
                 </div>
 
-                {/* Título y autor del libro */}
+                {/* Título y autor del libro - SIEMPRE reales */}
                 <div className="mb-8">
-                    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 leading-tight">
                         {book.title}
                     </h1>
-                    <p className="text-xl text-gray-600">
-                        {cleanedAuthorName}
+                    <p className="text-lg md:text-xl text-gray-600">
+                        by {cleanedAuthorName}
                     </p>
+                    
+                    {/* Información adicional */}
+                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-gray-500">
+                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                            📚 {book.genre}
+                        </span>
+                        <span className="bg-gray-100 px-3 py-1 rounded-full">
+                            📅 Published {book.publishedYear}
+                        </span>
+                        {isWayOfKings && (
+                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">
+                                📖 Available for Reading
+                            </span>
+                        )}
+                    </div>
                 </div>
 
                 {/* Contenido del libro */}
-                <div className="bg-white rounded-lg shadow-sm p-8 md:p-12">
+                <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">
                     {renderContent()}
                 </div>
             </div>
