@@ -55,16 +55,15 @@ export default function RegisterForm({ onSuccess, onToggleMode }: RegisterFormPr
                 <div>
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                         Username
-                    </label>
-                    <input
-                        id="username"
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Choose a username"
-                        disabled={isLoading}
-                    />
+                    </label>                        <input
+                            id="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Username"
+                            disabled={isLoading}
+                        />
                 </div>
 
                 <div>
@@ -78,7 +77,7 @@ export default function RegisterForm({ onSuccess, onToggleMode }: RegisterFormPr
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Create a password (min 6 chars)"
+                            placeholder="Password"
                             disabled={isLoading}
                         />
                         <button
@@ -107,7 +106,7 @@ export default function RegisterForm({ onSuccess, onToggleMode }: RegisterFormPr
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Confirm your password"
+                            placeholder="Confirm password"
                             disabled={isLoading}
                         />
                         <button

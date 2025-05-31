@@ -58,7 +58,7 @@ export default function BookFilters({
                         <input
                             ref={inputRef}
                             type="text"
-                            placeholder="Search books by title..."
+                            placeholder="Search books..."
                             value={searchQuery}
                             onChange={handleInputChange}
                             onKeyPress={handleKeyPress}

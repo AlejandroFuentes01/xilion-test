@@ -74,27 +74,16 @@ export default function BooksPage() {
                         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                             <div>
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                                    Books
+                                    Library
                                 </h1>
                                 <div className="mt-1 sm:mt-2">
-                                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">
-                                        <span className="block sm:inline">View and manage your library collection</span>
-                                        {totalBooksInLibrary > 0 && (
-                                            <span className="block sm:inline sm:ml-2 text-blue-600 font-medium mt-1 sm:mt-0">
-                                                • {totalBooksInLibrary.toLocaleString()} books in library
-                                            </span>
-                                        )}
-                                    </p>
+                                    {totalBooksInLibrary > 0 && (
+                                        <p className="text-xs sm:text-sm md:text-base text-gray-600">
+                                            {totalBooksInLibrary.toLocaleString()} books
+                                        </p>
+                                    )}
                                 </div>
                             </div>
-
-                            {/* Indicador de vista actual (solo en desarrollo) */}
-                            {process.env.NODE_ENV === 'development' && (
-                                <div className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-lg">
-                                    <span className="block lg:hidden">📱 Mobile: Cards View</span>
-                                    <span className="hidden lg:block">💻 Desktop: Table View</span>
-                                </div>
-                            )}
                         </div>
                     </div>
 

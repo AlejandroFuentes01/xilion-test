@@ -10,12 +10,12 @@ export default function EmptyState({ hasFilters, onClearFilters }: EmptyStatePro
         <div className="text-center py-16">
             <BookOpen className="mx-auto h-12 w-12 text-gray-400 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {hasFilters ? 'No books match your search' : 'No books found'}
+                {hasFilters ? 'No results' : 'No books found'}
             </h3>
             <p className="text-sm text-gray-600 mb-4">
                 {hasFilters
-                    ? 'Try adjusting your search criteria or filters'
-                    : 'There are no books in the library yet'
+                    ? 'Try adjusting your search'
+                    : 'Library is empty'
                 }
             </p>
             {hasFilters && onClearFilters && (

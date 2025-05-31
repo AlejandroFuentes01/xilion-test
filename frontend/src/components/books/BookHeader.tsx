@@ -21,7 +21,7 @@ export default function BookHeader() {
 
                     {/* Menú de usuario - Lado derecho */}
                     <div className="flex items-center space-x-4">
-                        <span className="text-sm text-gray-600">Welcome, {user?.username}</span>
+                        <span className="text-sm text-gray-600">{user?.username}</span>
                         <button
                             onClick={logout}
                             className="text-sm text-red-600 hover:text-red-500 transition-colors"

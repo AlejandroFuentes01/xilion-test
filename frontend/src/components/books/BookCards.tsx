@@ -125,7 +125,7 @@ export default function BookCards({
     if (error) {
         return (
             <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                <div className="text-red-600 mb-2 text-sm">⚠️ Error loading books</div>
+                <div className="text-red-600 mb-2 text-sm">⚠️ Error</div>
                 <p className="text-red-800 mb-4 text-sm">{error}</p>
                 {onClearError && (
                     <button
@@ -258,7 +258,7 @@ export default function BookCards({
                         ) : (
                             <>
                                 <Book className="h-4 w-4" />
-                                Load More Books
+                                Load More
                             </>
                         )}
                     </button>
@@ -287,7 +287,7 @@ export default function BookCards({
             {!hasNextPage && books.length > 0 && (
                 <div className="text-center py-6">
                     <div className="text-gray-500 text-xs">
-                        📚 End of {hasFilters ? 'filtered' : ''} book collection
+                        📚 End of collection
                     </div>
                 </div>
             )}

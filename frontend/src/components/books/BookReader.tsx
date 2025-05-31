@@ -42,19 +42,15 @@ export default function BookReader({ book }: BookReaderProps) {
                     {/* Resumen del libro */}
                     <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
                         <h4 className="text-xl font-semibold text-gray-900 mb-4">
-                            Book Summary
+                            About this book
                         </h4>
                         
                         <p className="mb-4">
-                            Set on the storm-ravaged world of Roshar, "The Way of Kings" is an epic fantasy that follows three main characters: Kaladin, a former soldier turned slave; Shallan, a young woman seeking to save her family; and Dalinar, a warlord haunted by visions of ancient times.
-                        </p>
-
-                        <p className="mb-4">
-                            Roshar is a world of stone and storms, where violent tempests reshape the landscape. Ancient magical artifacts known as Shardblades and Shardplate make their wielders nearly unstoppable in battle.
+                            Epic fantasy set on the storm-ravaged world of Roshar. Follow Kaladin, Shallan, and Dalinar through a world of ancient magic and violent tempests.
                         </p>
 
                         <p>
-                            This is the first book in The Stormlight Archive series, an epic fantasy adventure with complex magic systems, deep character development, and incredibly detailed world-building spanning approximately 1,000 pages.
+                            First book in The Stormlight Archive series. Complex magic systems, deep characters, and detailed world-building across 1,000+ pages.
                         </p>
                     </div>
                 </div>
@@ -107,7 +103,7 @@ export default function BookReader({ book }: BookReaderProps) {
                         className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
                     >
                         <ArrowLeft size={16} />
-                        Back to Books
+                        Back
                     </button>
                 </div>
 

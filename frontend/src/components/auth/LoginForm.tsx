@@ -50,7 +50,7 @@ export default function LoginForm({ onSuccess, onToggleMode }: LoginFormProps) {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter your username"
+                        placeholder="Username"
                         disabled={isLoading}
                     />
                 </div>
@@ -66,7 +66,7 @@ export default function LoginForm({ onSuccess, onToggleMode }: LoginFormProps) {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Enter your password"
+                            placeholder="Password"
                             disabled={isLoading}
                         />
                         <button
