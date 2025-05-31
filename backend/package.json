@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && prisma generate",
+    "build": "tsc && npm run generate:all",
     "start": "node dist/server.js",
     "migrate:books": "prisma migrate deploy --schema=./prisma/books-schema.prisma",
     "migrate:authors": "prisma migrate deploy --schema=./prisma/authors-schema.prisma", 
