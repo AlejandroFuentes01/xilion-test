@@ -6,15 +6,15 @@ import booksRoutes from './booksRoutes';
 export const configureRoutes = (app: Application) => {
     const router = Router();
 
-    // API routes - DESCOMENTADAS Y CON IMPORTS
+    // Rutas de API - DESCOMENTADAS Y CON IMPORTS
     router.use('/auth', authRoutes);
     router.use('/books', booksRoutes);
     router.use('/authors', authorsRoutes);
 
-    // Main API prefix
+    // Prefijo principal de API
     app.use('/api', router);
 
-    // Catch-all for undefined routes
+    // Capturar todas las rutas no definidas
     app.use('*', (req, res) => {
         res.status(404).json({
             success: false,

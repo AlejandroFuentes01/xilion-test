@@ -1,4 +1,4 @@
-// Base Models (sincronizado con backend)
+// Modelos Base (sincronizado con backend)
 export interface Book {
     id: string;
     title: string;
@@ -18,7 +18,7 @@ export interface Author {
     updatedAt: string;
 }
 
-// Extended Types
+// Tipos Extendidos
 export interface BookWithAuthor extends Book {
     author: Author;
 }
@@ -30,7 +30,7 @@ export interface AuthorWithStats extends Author {
     books?: Book[];
 }
 
-// API Response Types
+// Tipos de Respuesta API
 export interface APIResponse<T = any> {
     success: boolean;
     data?: T;
@@ -50,7 +50,7 @@ export interface PaginatedResponse<T> {
     };
 }
 
-// Auth Types
+// Tipos de Autenticación
 export interface AuthResponse {
     token: string;
     user: {
@@ -65,14 +65,14 @@ export interface User {
     token?: string;
 }
 
-// Genre Stats
+// Estadísticas de Género
 export interface GenreStats {
     genre: string;
     bookCount: number;
     averagePublicationYear: number;
 }
 
-// Filter & Search Types
+// Tipos de Filtro y Búsqueda
 export interface BookFilters {
     search?: string;
     genre?: string;
@@ -80,7 +80,7 @@ export interface BookFilters {
     limit?: number;
 }
 
-// Predefined Genres (sincronizado con backend)
+// Géneros Predefinidos (sincronizado con backend)
 export const VALID_GENRES = [
     'Fiction',
     'Non-Fiction',
@@ -101,7 +101,7 @@ export const VALID_GENRES = [
 
 export type ValidGenre = typeof VALID_GENRES[number];
 
-// Book Content Types
+// Tipos de Contenido de Libro
 export interface BookContent {
     id: string;
     bookId: string;
@@ -109,7 +109,7 @@ export interface BookContent {
     hasRealContent: boolean;
 }
 
-// Extended Book with content
+// Libro Extendido con contenido
 export interface BookWithContent extends BookWithAuthor {
     hasRealContent?: boolean;
     contentPreview?: string;

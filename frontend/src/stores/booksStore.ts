@@ -18,7 +18,7 @@ interface BooksState {
     clearError: () => void;
 }
 
-// Función helper para comparar filtros
+// Función auxiliar para comparar filtros
 const areFiltersEqual = (filters1: BookFilters, filters2: BookFilters): boolean => {
     return (
         filters1.search === filters2.search &&

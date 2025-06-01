@@ -1,4 +1,4 @@
-// Base Models
+// Modelos Base
 export interface Book {
     id: string;
     title: string;
@@ -18,7 +18,7 @@ export interface Author {
     updatedAt: Date;
 }
 
-// Extended Types
+// Tipos Extendidos
 export interface BookWithAuthor extends Book {
     author: Author;
 }
@@ -30,7 +30,7 @@ export interface AuthorWithStats extends Author {
     books?: Book[];
 }
 
-// API Request/Response Types
+// Tipos de Petición/Respuesta de API
 export interface CreateBookRequest {
     title: string;
     authorId: string;
@@ -51,7 +51,7 @@ export interface AuthResponse {
     };
 }
 
-// Pagination
+// Paginación
 export interface PaginationQuery {
     page?: number;
     limit?: number;
@@ -71,14 +71,14 @@ export interface PaginatedResponse<T> {
     };
 }
 
-// Genre Statistics
+// Estadísticas de Géneros
 export interface GenreStats {
     genre: string;
     bookCount: number;
     averagePublicationYear: number;
 }
 
-// JWT Payload
+// Payload JWT
 export interface JWTPayload {
     userId: string;
     username: string;
@@ -86,7 +86,7 @@ export interface JWTPayload {
     exp?: number;
 }
 
-// API Response Wrapper
+// Envoltorio de Respuesta API
 export interface APIResponse<T = any> {
     success: boolean;
     data?: T;
@@ -94,7 +94,7 @@ export interface APIResponse<T = any> {
     error?: string;
 }
 
-// Predefined Genres
+// Géneros Predefinidos
 export const VALID_GENRES = [
     'Fiction',
     'Non-Fiction',

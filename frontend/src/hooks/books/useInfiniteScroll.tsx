@@ -6,7 +6,7 @@ interface UseInfiniteScrollOptions {
     hasNextPage: boolean;
     isLoading: boolean;
     onLoadMore: () => void;
-    threshold?: number; // Pixels desde el bottom para disparar carga
+    threshold?: number; // Píxeles desde el bottom para disparar carga
 }
 
 export function useInfiniteScroll({
@@ -34,7 +34,7 @@ export function useInfiniteScroll({
             loadingRef.current = true;
             onLoadMore();
 
-            // Reset flag después de un delay para evitar spam
+            // Reiniciar flag después de un delay para evitar spam
             setTimeout(() => {
                 loadingRef.current = false;
             }, 1000);
@@ -42,7 +42,7 @@ export function useInfiniteScroll({
     }, [hasNextPage, isLoading, onLoadMore, threshold]);
 
     useEffect(() => {
-        // Throttle scroll events para mejor performance
+        // Limitar eventos de scroll para mejor rendimiento
         let timeoutId: NodeJS.Timeout;
 
         const throttledHandleScroll = () => {
@@ -62,7 +62,7 @@ export function useInfiniteScroll({
         };
     }, [handleScroll]);
 
-    // Reset loading flag cuando cambian las dependencias
+    // Reiniciar loading flag cuando cambian las dependencias
     useEffect(() => {
         loadingRef.current = false;
     }, [hasNextPage, isLoading]);

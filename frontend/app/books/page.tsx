@@ -57,7 +57,7 @@ export default function BooksPage() {
         rememberUserPreference: true
     });
 
-    // Early return if not authenticated
+    // Retorno temprano si no está autenticado
     if (!isAuthenticated) {
         return null;
     }
@@ -66,10 +66,10 @@ export default function BooksPage() {
         <div className="min-h-screen bg-gray-50">
             <BookHeader />
 
-            {/* Main Container - Responsive padding and spacing */}
+            {/* Contenedor Principal - Padding y espaciado responsivo */}
             <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10">
                 <div className="py-4 sm:py-6 md:py-8 lg:py-10">
-                    {/* Page Header - Responsive typography and spacing */}
+                    {/* Encabezado de Página - Tipografía y espaciado responsivo */}
                     <div className="mb-4 sm:mb-6 md:mb-8">
                         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                             <div>
@@ -87,7 +87,7 @@ export default function BooksPage() {
                         </div>
                     </div>
 
-                    {/* Filters Section - Responsive with proper spacing */}
+                    {/* Sección de Filtros - Responsivo con espaciado adecuado */}
                     <div className="mb-4 sm:mb-6 md:mb-8">
                         <BookFilters
                             searchQuery={searchQuery}

@@ -7,23 +7,23 @@ export const configureMiddleware = (app: express.Application) => {
     // CORS actualizado para incluir Vercel
     app.use(cors({
         origin: [
-            'http://localhost:3001',                                    // Local development
+            'http://localhost:3001',                                    // Desarrollo local
             'https://library-frontend-snowy.vercel.app',               // Tu URL de Vercel
             'https://*.vercel.app',                                     // Cualquier app de Vercel
-            'https://vercel.app'                                        // Vercel domains
+            'https://vercel.app'                                        // Dominios de Vercel
         ],
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization']
     }));
 
-    // Resto de middleware
+    // Resto del middleware
     app.use(helmet());
     app.use(morgan('combined'));
     app.use(express.json({ limit: '10mb' }));
     app.use(express.urlencoded({ extended: true }));
 
-    // Health check endpoint
+    // Endpoint de verificación de salud
     app.get('/health', (req, res) => {
         res.json({
             success: true,

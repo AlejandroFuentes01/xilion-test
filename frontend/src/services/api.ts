@@ -1,7 +1,7 @@
 import { APIResponse, AuthorWithStats, AuthResponse, BookFilters, BookWithAuthor, GenreStats, PaginatedResponse } from '@/types';
 import axios from 'axios';
 
-// Base API configuration
+// Configuración base de API
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://xilion-test-production.up.railway.app/api';
 
 export const api = axios.create({
@@ -11,7 +11,7 @@ export const api = axios.create({
     },
 });
 
-// Add auth token to requests
+// Agregar token de autenticación a las peticiones
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('auth_token');
     if (token) {
@@ -20,7 +20,7 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Auth Services
+// Servicios de Autenticación
 export const authService = {
     async login(username: string, password: string): Promise<AuthResponse> {
         const response = await api.post<APIResponse<AuthResponse>>('/auth/login', {
@@ -44,7 +44,7 @@ export const authService = {
     },
 };
 
-// Books Services
+// Servicios de Libros
 export const booksService = {
     async getBooks(filters: BookFilters = {}): Promise<PaginatedResponse<BookWithAuthor>> {
         const params = new URLSearchParams();
@@ -83,7 +83,7 @@ export const booksService = {
     },
 };
 
-// Authors Services
+// Servicios de Autores
 export const authorsService = {
     async getAuthors(): Promise<AuthorWithStats[]> {
         const response = await api.get<APIResponse<AuthorWithStats[]>>('/authors');

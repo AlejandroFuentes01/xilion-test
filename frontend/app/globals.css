@@ -175,7 +175,7 @@ textarea::placeholder {
     }
 }
 
-/* Clase helper para debug (solo en desarrollo) */
+/* Clase auxiliar para debug (solo en desarrollo) */
 .table-scroll-debug {
     outline: 2px dashed #3b82f6;
     outline-offset: 2px;

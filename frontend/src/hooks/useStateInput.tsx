@@ -51,7 +51,7 @@ export function useStableInput({
         
         timeoutRef.current = setTimeout(() => {
             onValueChange(value);
-            rapidChangeCountRef.current = 0; // Reset contador
+            rapidChangeCountRef.current = 0; // Reiniciar contador
         }, delay);
         
     }, [onValueChange, debounceMs, fastDebounceMs]);

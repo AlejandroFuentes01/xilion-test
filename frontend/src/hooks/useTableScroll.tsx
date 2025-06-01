@@ -88,7 +88,7 @@ export function useTableScroll(options: UseTableScrollOptions = {}): UseTableScr
         }
     }, [rememberUserPreference]);
 
-    // Efecto para configurar listeners y verificar preferencias guardadas
+    // Efecto para configurar event listeners y verificar preferencias guardadas
     useEffect(() => {
         const element = scrollRef.current;
         if (!element) return;
@@ -119,28 +119,28 @@ export function useTableScroll(options: UseTableScrollOptions = {}): UseTableScr
             }
         };
 
-        // Listener de scroll con throttling
+        // Event listener de scroll con throttling
         let scrollTimeout: NodeJS.Timeout;
         const handleScroll = () => {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(updateScrollStates, 50);
         };
 
-        // Listener de resize para recalcular estados
+        // Event listener de resize para recalcular estados
         let resizeTimeout: NodeJS.Timeout;
         const handleResize = () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(checkScrollable, 100);
         };
 
-        // Configurar listeners
+        // Configurar event listeners
         element.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleResize, { passive: true });
 
         // Verificación inicial
         checkScrollable();
 
-        // Cleanup
+        // Limpieza
         return () => {
             element.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleResize);

@@ -4,19 +4,19 @@ import { connectDatabases, disconnectDatabases } from './config/database';
 import { configureMiddleware } from './middleware';
 import { configureRoutes } from './routes';
 
-// Load environment variables
+// Cargar variables de entorno
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure middleware
+// Configurar middleware
 configureMiddleware(app);
 
-// Configure routes
+// Configurar rutas
 configureRoutes(app);
 
-// Global error handler
+// Manejador global de errores
 app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error('Global error handler:', error);
 
@@ -27,7 +27,7 @@ app.use((error: any, req: express.Request, res: express.Response, next: express.
     });
 });
 
-// Graceful shutdown
+// Cierre elegante
 const gracefulShutdown = async (signal: string) => {
     console.log(`\n🛑 Received ${signal}. Shutting down gracefully...`);
 
@@ -41,17 +41,17 @@ const gracefulShutdown = async (signal: string) => {
     }
 };
 
-// Handle shutdown signals
+// Manejar señales de cierre
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-// Start server
+// Iniciar servidor
 const startServer = async () => {
     try {
-        // Connect to databases
+        // Conectar a las bases de datos
         await connectDatabases();
 
-        // Start HTTP server
+        // Iniciar servidor HTTP
         app.listen(PORT, () => {
             console.log('🚀 Server Configuration:');
             console.log(`   ├── Port: ${PORT}`);
@@ -72,5 +72,5 @@ const startServer = async () => {
     }
 };
 
-// Start the server
+// Iniciar el servidor
 startServer();
